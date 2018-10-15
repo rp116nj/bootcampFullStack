@@ -1,0 +1,145 @@
+let boardSize = 9;
+
+//checking for validity of a given puzzle
+function isSudokuValid(puzzle){
+  //Loop through each row
+  for ( let i = 0; i < boardSize; i++){
+
+    //check if each row is valid
+    let v = isValidRow (puzzle,i);
+
+    if (v === false) {
+      return false;
+    }
+    // check if column is valid
+    v = isValidColumn(puzzle,i);
+    if (v === false) {
+      return false;
+    }
+    
+  }
+  for (let i = 0; i < 3;i++){
+    for (let j = 0;j < 3; j++){
+     v =  isValidGrid(puzzle,i,j);
+     if (v === false) {
+      return false;
+      }
+    }
+  }
+  
+ 
+return true ;
+}
+
+
+//to get a row given a 2 dimensional array and a specific row and validating
+
+
+function isValidRow (grid,row){
+  let currentRow = [];
+  for(let i = 0;i < boardSize;i++){
+    currentRow.push(grid[row][i]);
+  }
+  return (includes1to9(currentRow));
+}
+
+// // to get a specified column given a 2 dimensional array and a specific column and validating
+function isValidColumn(grid,column){
+  let currentColumn = [];
+  for(let i = 0;i < boardSize;i++){
+    currentColumn.push(grid[i][column]);
+  }
+  return(includes1to9(currentColumn));
+ 
+}
+
+//to get a grid of 3by 3 and checking for validity
+function isValidGrid(grid,x,y){
+  //y is row value and x is column value
+  let currentGrid =[];
+  gridRow = y*3;
+  gridColumn = x*3;
+  for (let i =gridRow; i < gridRow+3; i++){
+    for(let j = gridColumn; j < gridColumn+3;j++){
+      currentGrid.push(grid[i][j]);
+    }
+  }  
+    return(includes1to9(currentGrid));
+}
+//checks whether a given array has only numbers fron 1to 9 with no repeats and returns a boolean value
+function includes1to9(array){
+  
+  let number =[1,2,3,4,5,6,7,8,9];
+  let value;
+  for ( let i = 0; i < array.length;i++){
+     value = number.includes(array[i])
+    if(value){
+      let index = number.indexOf(array[i]);
+       number.splice(index,1);
+      }
+    else {
+     return value;
+    }
+  }
+  
+return value;
+}
+
+
+//checking whether 2 puzzles are same
+
+function isSame(puzzle1,puzzle2){
+  let v1 = isSudokuValid(puzzle1);
+  let v2 = isSudokuValid(puzzle2);
+  if( v1 && v2 ){
+    console.log("The given puzzles are the same");
+    }
+    else if(v1 === true){
+      console.log(" puzzle2 is not valid sudoku.");
+    }
+    else {
+      console.log( "puzzle1 is not valid sudoku.");
+    }
+}
+let puzzle = [[ 8,9,5,   7,4,2,   1,3,6 ],
+              [ 2,7,01,   9,6,3,   4,8,5 ],
+              [ 4,6,3,   5,8,1,   7,9,2 ],
+
+              [ 9,3,4,   6,1,7,   2,5,8 ],
+              [ 5,1,7,   2,3,8,   9,6,4 ],
+              [ 6,8,2,   4,5,9,   3,7,1 ],
+
+              [ 1,5,9,   8,7,4,   6,2,3 ],
+              [ 7,4,6,   3,2,5,   8,1,9 ],
+              [ 3,2,8,   1,9,6,   5,4,7 ]];
+
+
+// 
+let puzzleCopy = [[ 8,9,5,7,4,2,1,3,6 ],
+                  [ 2,7,1,9,6,3,4,8,5 ],
+                  [ 4,6,3,5,8,1,7,9,2 ],
+                  [ 9,3,4,6,1,7,2,5,8 ],
+                  [ 5,1,7,2,3,8,9,6,4 ],
+                  [ 6,8,2,4,5,9,3,7,1 ],
+                  [ 1,5,9,8,7,4,6,2,3 ],
+                  [ 7,4,6,3,2,5,8,1,9 ],
+                  [ 3,2,8,1,9,6,5,4,7 ]];
+
+let p8zzle = [[ 8,9,5,7,4,2,1,3,6 ],
+              [ 8,7,1,9,6,3,4,8,5 ],
+              [ 4,6,3,5,8,1,7,9,2 ],
+              [ 9,3,4,6,1,7,2,5,8 ],
+              [ 5,1,7,2,3,8,9,6,4 ],
+              [ 6,8,2,4,5,9,3,7,1 ],
+              [ 1,5,9,8,7,4,6,2,3 ],
+              [ 7,4,6,3,2,5,8,1,9 ],
+              [ 3,2,8,1,9,6,5,4,7 ]];
+
+if (isSudokuValid (puzzle) === true){
+  console.log("The given puzzle is a valid Sudoku.");
+}
+else {
+  console.log("The given puzzle is not a valid Sudoku.")
+}
+isSame(puzzle, p8zzle);
+isSame(puzzle, puzzleCopy);
